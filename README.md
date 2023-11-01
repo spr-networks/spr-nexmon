@@ -80,3 +80,6 @@ Configure the plugin path in SPR. The plugin will be reachable at http://spr.lan
 curl -u admin:admin localhost/plugins/nexmon/change_channel?channel=1/20 -X PUT
 ```
 
+## Notes 
+
+The nexmon patch is not perfect and needs some care. Some commands like changing channels with iw no longer work as expected, and the nexmon utility should be used instead.
