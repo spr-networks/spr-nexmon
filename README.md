@@ -3,6 +3,10 @@
 Warning, this will overwrite your broadcom firmware on disk.
 Consider first making a copy of /lib/firmware/brcm/brcmfmac43455-sdio.bin
 
+## Versions 
+
+This expects the SPR pi image with a 6.2 Ubuntu kernel. 
+
 ## Building
 ```
 docker compose build
