@@ -1,0 +1,27 @@
+version: '3.4'
+
+x-logging:
+  &default-logging
+  driver: journald
+
+x-labels:
+  &default-labels
+  org.supernetworks.ci: ${CI:-false}
+  org.supernetworks.version: ${RELEASE_VERSION:-latest}${RELEASE_CHANNEL:-}
+
+services:
+  nexmon:
+    container_name: supernexmon
+    build:
+      context: .
+      labels: *default-labels
+    logging: *default-logging
+    restart: always
+    network_mode: host
+    privileged: true
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /lib/firmware/cypress/:/lib/firmware/cypress/
+      - "${SUPERDIR}./state/plugins/nexmon:/state/plugins/nexmon"
+      - "${SUPERDIR}./state/public/:/state/public/:ro"
