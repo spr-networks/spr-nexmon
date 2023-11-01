@@ -13,12 +13,13 @@ COPY code/ /code/
 ARG USE_TMPFS=true
 RUN --mount=type=tmpfs,target=/tmpfs \
     [ "$USE_TMPFS" = "true" ] && ln -s /tmpfs /root/go; \
-    go build -ldflags "-s -w" -o /api_sample_plugin /code/sample_plugin.go
+    go build -ldflags "-s -w" -o /nexmon_plugin /code/nexmon_plugin.go
 
 
 FROM ghcr.io/spr-networks/container_template:latest
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y --no-install-recommends hostapd && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends tcpdump kmod iw wireless-regdb && rm -rf /var/lib/apt/lists/*
 COPY scripts /scripts/
-COPY --from=builder /api_sample_plugin /
+COPY --from=builder /nexmon_plugin /
+COPY binaries/ nexmon/
 ENTRYPOINT ["/scripts/startup.sh"]
